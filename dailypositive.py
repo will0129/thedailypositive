@@ -3,17 +3,23 @@
 
 import os
 import random
+from datetime import datetime
 
 from webexteamssdk import WebexTeamsAPI
 
 
-def random_line(fname):
+def picka_line(fname):
+    #// this was random but too many birthday paradox (requoting quotes) moving to datetimed format
+
     lines = open(fname).read().splitlines()
-    return random.choice(lines)
+    incrementalWrap=datetime.now().timetuple().tm_yday%len(lines)
+    # // this takes "date of year" (1-365) and modulos it with the amount of lines
 
-QUOTE=random_line("quotes.txt")
+    return lines[incrementalWrap-1]    # // we subtract 1 due to list starts at 0
 
-GREETING=random_line("greetings.txt")
+QUOTE=picka_line("quotes.txt")
+
+GREETING=picka_line("greetings.txt")
 
 TEAMSGREETING=GREETING+" the positive quote of the day is: "
 
